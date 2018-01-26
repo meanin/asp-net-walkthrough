@@ -6,7 +6,7 @@ namespace ApplicationEvents.Controllers
     {
         public ActionResult Index()
         {
-            Response.Write("Controller Action");
+            Response.Write("<p>Controller Action</p>");
             return new EmptyResult();
         }
     }
