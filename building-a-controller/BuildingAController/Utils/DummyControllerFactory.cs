@@ -2,8 +2,9 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.SessionState;
+using BuildingAController.Controllers;
 
-namespace BuildingAController.Controllers
+namespace BuildingAController.Utils
 {
     public class DummyControllerFactory : IControllerFactory
     {

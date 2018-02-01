@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using BuildingAController.Controllers;
+using BuildingAController.Utils;
 
 namespace BuildingAController
 {
@@ -16,28 +14,10 @@ namespace BuildingAController
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            //ControllerBuilder.Current.SetControllerFactory(new DummyControllerFactory());
+            // Do not register both custom dependency resolver and controller factory because of:
+            // https://github.com/ASP-NET-MVC/aspnetwebstack/blob/4e40cdef9c8a8226685f95ef03b746bc8322aa92/src/System.Web.Mvc/SingleServiceResolver.cs
+            // ControllerBuilder.Current.SetControllerFactory(new DummyControllerFactory());
             DependencyResolver.SetResolver(new DummyDependencyResolver());
-        }
-    }
-
-    public class DummyDependencyResolver : IDependencyResolver
-    {
-        public object GetService(Type serviceType)
-        {
-            
-            var types = GetType().Assembly.GetTypes()
-                .Where(serviceType.IsAssignableFrom)
-                .Where(s => !s.IsInterface);
-            if(types.Any())
-                return Activator.CreateInstance(types.First());
-
-            throw new Exception($"Cannot find parameterless constructor for implementation of {serviceType}");
-        }
-
-        public IEnumerable<object> GetServices(Type serviceType)
-        {
-            throw new NotImplementedException();
         }
     }
 }
